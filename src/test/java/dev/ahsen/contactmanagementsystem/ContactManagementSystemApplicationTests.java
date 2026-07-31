@@ -1,4 +1,4 @@
-package dev.ahsen.Contact_Management_System;
+package dev.ahsen.contactmanagementsystem;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
