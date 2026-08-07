@@ -22,7 +22,7 @@ export default function HealthStatus() {
       } catch (err) {
         if (!cancelled) {
           setStatus(null)
-          setError(err instanceof Error ? err.message : 'Unable to reach backend')
+          setError(err instanceof Error ? err.message : 'Backend request failed')
         }
       } finally {
         if (!cancelled) {
@@ -49,7 +49,7 @@ export default function HealthStatus() {
       )}
       {!loading && error && (
         <p className="health-status__error">
-          Backend unreachable: {error}
+          Backend request failed: {error}
         </p>
       )}
     </section>
