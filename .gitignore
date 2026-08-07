@@ -1,33 +1,13 @@
-### Backend ###
-target/
-*.class
-*.log
-*.jar
-*.war
-*.nar
-*.ear
-hs_err_pid*
-
-### Frontend ###
-node_modules/
-dist/
-.env
-.env.*
-!.env.example
-
-### IDE ###
+### IntelliJ IDEA ###
 .idea/
-*.iml
 *.iws
+*.iml
 *.ipr
-.vscode/
-*.swp
-*.swo
+
+### Maven ###
+target/
+!.mvn/wrapper/maven-wrapper.jar
 
 ### OS ###
 .DS_Store
 Thumbs.db
-Desktop.ini
-
-### Maven wrapper jar exception ###
-!.mvn/wrapper/maven-wrapper.jar
