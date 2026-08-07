@@ -10,7 +10,7 @@ Phase 1 foundation for a modular-monolith Contact Management System (React + Spr
 | Spring Boot | 4.1.0 (Maven) |
 | Database | MySQL (local) |
 | Frontend | React.js + Vite |
-| Node.js | 20+ recommended |
+| Node.js | 20.19+ recommended |
 
 ## Architecture
 
