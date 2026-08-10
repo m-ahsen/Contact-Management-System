@@ -11,7 +11,8 @@ export default class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error('Uncaught render error:', error, errorInfo)
+    // Single reporting path for errors caught by this boundary (do not also log in createRoot.onCaughtError).
+    console.error('Caught render error:', error, errorInfo)
   }
 
   render() {

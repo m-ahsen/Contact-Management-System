@@ -5,11 +5,9 @@ import App from './App.jsx'
 import ErrorBoundary from './app/ErrorBoundary.jsx'
 
 createRoot(document.getElementById('root'), {
+  // Caught render errors are reported once in ErrorBoundary.componentDidCatch.
   onUncaughtError: (error, errorInfo) => {
     console.error('Uncaught error:', error, errorInfo)
-  },
-  onCaughtError: (error, errorInfo) => {
-    console.error('Caught error:', error, errorInfo)
   },
 }).render(
   <StrictMode>
