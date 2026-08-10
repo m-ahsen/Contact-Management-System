@@ -10,7 +10,7 @@ Phase 1 foundation for a modular-monolith Contact Management System (React + Spr
 | Spring Boot | 4.1.0 (Maven) |
 | Database | MySQL (local) |
 | Frontend | React.js + Vite |
-| Node.js | 20.19+ recommended |
+| Node.js | 20.19+ recommended (or >=22.12.0) |
 
 ## Architecture
 
@@ -45,10 +45,13 @@ contact-management-system/
 ## MySQL setup
 
 1. Start MySQL on `localhost:3306`.
-2. Create the database:
+2. Create the database and a non-root local development user:
 
 ```sql
 CREATE DATABASE contact_management;
+CREATE USER 'cms_dev'@'localhost' IDENTIFIED BY 'cms_dev_local';
+GRANT ALL PRIVILEGES ON contact_management.* TO 'cms_dev'@'localhost';
+FLUSH PRIVILEGES;
 ```
 
 3. Connection used by the backend (dev profile):
@@ -56,14 +59,35 @@ CREATE DATABASE contact_management;
 - Host: `localhost`
 - Port: `3306`
 - Database: `contact_management`
-- Username: `root`
-- Password: `password` (override with `DB_PASSWORD` if needed)
+- Username: `cms_dev` (override with `DB_USERNAME` if needed)
+- Password: `cms_dev_local` (override with `DB_PASSWORD` if needed)
+
+Production credentials must be supplied via environment variables (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USERNAME`, `DB_PASSWORD`) with no local defaults.
 
 ## Backend
 
+Activate the **dev** profile explicitly (there is no default profile):
+
+**Windows (PowerShell):**
+
 ```powershell
 cd backend
+$env:SPRING_PROFILES_ACTIVE = "dev"
 .\mvnw.cmd spring-boot:run
+```
+
+**macOS / Linux:**
+
+```bash
+cd backend
+export SPRING_PROFILES_ACTIVE=dev
+./mvnw spring-boot:run
+```
+
+Or pass the profile on the command line:
+
+```bash
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
 API: `http://localhost:8080`
@@ -82,12 +106,23 @@ Expected:
 
 Tests:
 
+**Windows (PowerShell):**
+
 ```powershell
 cd backend
 .\mvnw.cmd test
 ```
 
+**macOS / Linux:**
+
+```bash
+cd backend
+./mvnw test
+```
+
 ## Frontend
+
+**Windows (PowerShell):**
 
 ```powershell
 cd frontend
@@ -96,9 +131,20 @@ npm install
 npm run dev
 ```
 
+**macOS / Linux:**
+
+```bash
+cd frontend
+cp .env.example .env
+npm install
+npm run dev
+```
+
 App: `http://localhost:5173`
 
 The home page calls `GET /api/v1/health` and shows the result.
+
+Client routes such as `/health` rely on SPA history fallback (`vite` `appType: 'spa'`, plus `public/_redirects` / `vercel.json` for static hosts). Ensure your production static host rewrites unknown paths to `index.html`.
 
 ## Documentation
 
