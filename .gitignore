@@ -1,13 +1,31 @@
-### IntelliJ IDEA ###
-.idea/
-*.iws
-*.iml
-*.ipr
-
-### Maven ###
+### Backend ###
 target/
-!.mvn/wrapper/maven-wrapper.jar
+*.class
+*.log
+*.jar
+*.war
+hs_err_pid*
+
+### Frontend ###
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+
+### IDE ###
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+*.swp
+*.swo
 
 ### OS ###
 .DS_Store
 Thumbs.db
+Desktop.ini
+
+### Maven wrapper ###
+!.mvn/wrapper/maven-wrapper.jar
