@@ -66,13 +66,13 @@ Production credentials must be supplied via environment variables (`DB_HOST`, `D
 
 ## Backend
 
-Activate the **dev** profile explicitly (there is no default profile):
+Uses the **dev** profile by default for local runs (`.\mvnw.cmd spring-boot:run`).
+For production, set `SPRING_PROFILES_ACTIVE=prod` and provide all `DB_*` environment variables.
 
 **Windows (PowerShell):**
 
 ```powershell
 cd backend
-$env:SPRING_PROFILES_ACTIVE = "dev"
 .\mvnw.cmd spring-boot:run
 ```
 
@@ -80,14 +80,7 @@ $env:SPRING_PROFILES_ACTIVE = "dev"
 
 ```bash
 cd backend
-export SPRING_PROFILES_ACTIVE=dev
 ./mvnw spring-boot:run
-```
-
-Or pass the profile on the command line:
-
-```bash
-./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
 API: `http://localhost:8080`
