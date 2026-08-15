@@ -8,7 +8,7 @@ This project is a **modular monolith**: one Spring Boot app and one React app in
 
 ```text
 React.js (Vite)
-    ↓ REST / JSON
+    ↓ REST / JSON + Bearer JWT
 Spring Boot controllers
     ↓
 Application services
@@ -30,24 +30,26 @@ MySQL (contact_management)
 
 Under `com.ahsen.contactmanagement`:
 
-- `config` — shared config (CORS)
-- `security` — reserved (later phases)
-- `auth` — reserved (later phases)
-- `user` — reserved (later phases)
+- `config` — shared config (CORS, JPA auditing)
+- `security` — JWT filter, `SecurityConfig`, current-user identity
+- `auth` — registration and login
+- `user` — profile and password change
 - `contact` — reserved (later phases)
-- `common` — shared foundation (health)
-- `exception` — reserved (later phases)
+- `common` — shared foundation (health, API constants)
+- `exception` — API error format and global handler
 
 ```text
 Controller → Service → Repository → Database
 ```
 
+Authenticated identity comes from the JWT / security context, not from a client-supplied user id.
+
 ## Frontend packaging
 
-- `app/` — routing
+- `app/` — routing, protected/public route guards
 - `pages/` — screens
-- `features/` — feature modules (e.g. health)
-- `shared/api/` — API client
+- `features/` — feature modules (`auth`, `profile`, `health`)
+- `shared/api/` — API client (attaches the Bearer token)
 
 ## Phase 1
 
@@ -55,6 +57,10 @@ Controller → Service → Repository → Database
 - MySQL connectivity
 - `GET /api/v1/health`
 - CORS for local Vite
-- Frontend shows backend health
 
-Business features are deferred.
+## Phase 2
+
+- User registration (email or phone)
+- Login with JWT
+- Protected APIs and routes
+- Profile and password change

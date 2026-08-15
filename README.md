@@ -1,6 +1,8 @@
 # Contact Management System
 
-Phase 1 foundation for a modular-monolith Contact Management System (React + Spring Boot + MySQL).
+Modular-monolith Contact Management System (React + Spring Boot + MySQL).
+
+Phase 2 adds authentication and user management on the Phase 1 foundation.
 
 ## Requirements
 
@@ -16,7 +18,7 @@ Phase 1 foundation for a modular-monolith Contact Management System (React + Spr
 
 ```text
 React.js (frontend/)
-    ↓ REST API
+    ↓ REST API + JWT
 Spring Boot (backend/)
     ↓
 Spring Data JPA
@@ -62,12 +64,21 @@ FLUSH PRIVILEGES;
 - Username: `cms_dev` (override with `DB_USERNAME` if needed)
 - Password: `cms_dev_local` (override with `DB_PASSWORD` if needed)
 
+The `dev` profile uses `spring.jpa.hibernate.ddl-auto=update`, so the `users` table is created from the JPA entity on startup. Production keeps `ddl-auto=none`; apply [docs/database/users.md](docs/database/users.md).
+
 Production credentials must be supplied via environment variables (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USERNAME`, `DB_PASSWORD`) with no local defaults.
 
 ## Backend
 
-Uses the **dev** profile by default for local runs (`.\mvnw.cmd spring-boot:run`).
-For production, set `SPRING_PROFILES_ACTIVE=prod` and provide all `DB_*` environment variables.
+Uses the **dev** profile by default for local runs (`./mvnw spring-boot:run`).
+For production, set `SPRING_PROFILES_ACTIVE=prod` and provide all `DB_*` environment variables plus `JWT_SECRET`.
+
+Optional JWT settings:
+
+| Variable | Default (dev) | Notes |
+|----------|---------------|--------|
+| `JWT_SECRET` | local-only fallback in `dev` | **Required in production.** At least 32 bytes. |
+| `JWT_EXPIRATION_MS` | `86400000` (24h) | Token lifetime |
 
 **Windows (PowerShell):**
 
@@ -85,7 +96,7 @@ cd backend
 
 API: `http://localhost:8080`
 
-Health check:
+Health check (public):
 
 ```text
 GET http://localhost:8080/api/v1/health
@@ -95,6 +106,15 @@ Expected:
 
 ```json
 { "status": "UP" }
+```
+
+Auth:
+
+```text
+POST /api/v1/auth/register
+POST /api/v1/auth/login
+GET  /api/v1/users/me
+PUT  /api/v1/users/password
 ```
 
 Tests:
@@ -135,16 +155,19 @@ npm run dev
 
 App: `http://localhost:5173`
 
-The home page calls `GET /api/v1/health` and shows the result.
+Public routes: `/login`, `/register`, `/health`. Protected routes: `/dashboard`, `/profile`. `/` redirects based on authentication state.
 
-Client routes such as `/health` rely on SPA history fallback (`vite` `appType: 'spa'`, plus `public/_redirects` / `vercel.json` for static hosts). Ensure your production static host rewrites unknown paths to `index.html`.
+Client routes rely on SPA history fallback (`vite` `appType: 'spa'`, plus `public/_redirects` / `vercel.json` for static hosts). Ensure your production static host rewrites unknown paths to `index.html`.
 
 ## Documentation
 
 - [Architecture overview](docs/architecture/overview.md)
 - [Conceptual data model](docs/database/conceptual-model.md)
+- [Users table](docs/database/users.md)
 - [Health API](docs/api/health.md)
+- [Auth API](docs/api/auth.md)
+- [Users API](docs/api/users.md)
 
-## Phase 1 scope
+## Phase 2 scope
 
-This phase only sets up structure, MySQL connection, CORS, health endpoint, and frontend ↔ backend communication. Auth, contacts, and other business features come in later phases.
+Registration, login, JWT-protected APIs, profile, and password change. Contact management is deferred to a later phase.
