@@ -49,6 +49,20 @@ body {
   text-decoration: underline;
 }
 
+.link-button {
+  font: inherit;
+  color: #0969da;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
+
 code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.9em;

@@ -1,11 +1,11 @@
 # Conceptual Data Model
 
-Phase 1 documents the intended domain model only. **No business tables are created yet.**
+Phase 2 creates the `users` table. Contact tables are still deferred.
 
-## Entities (conceptual)
+## Entities
 
 ```text
-User
+User          ← implemented (users table)
   └── Contact
         ├── Email  (multiple, labeled)
         └── Phone  (multiple, labeled)
@@ -13,21 +13,24 @@ User
 
 ### User
 
-Application account. Owns contacts; auth/profile come later.
+Application account used for registration, login, and profile. Owns contacts in later phases.
+
+See [users.md](users.md) for the table definition.
 
 ### Contact
 
-Person/organization entry owned by a user.
+Person/organization entry owned by a user. Not implemented yet.
 
 ### Email
 
-One or more labeled email addresses per contact.
+One or more labeled email addresses per contact. Not implemented yet.
 
 ### Phone
 
-One or more labeled phone numbers per contact.
+One or more labeled phone numbers per contact. Not implemented yet.
 
 ## Notes
 
-- This is design only for Phase 1.
 - Database name: `contact_management`.
+- A user registers with email **or** phone (or both). Unique indexes allow `NULL` for the unused identifier.
+- Passwords are stored as BCrypt hashes.

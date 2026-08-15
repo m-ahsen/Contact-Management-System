@@ -10,7 +10,7 @@ GET /api/v1/health
 
 Simple health check to confirm the Spring Boot app is running and the frontend can call the backend.
 
-No authentication in Phase 1.
+Public. No authentication required.
 
 ## Response
 
