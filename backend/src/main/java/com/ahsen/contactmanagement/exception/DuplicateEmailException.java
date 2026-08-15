@@ -1,0 +1,8 @@
+package com.ahsen.contactmanagement.exception;
+
+public class DuplicateEmailException extends RuntimeException {
+
+    public DuplicateEmailException() {
+        super("Email already registered");
+    }
+}
